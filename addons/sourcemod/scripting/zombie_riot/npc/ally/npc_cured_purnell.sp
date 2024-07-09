@@ -34,13 +34,11 @@ static char g_KilledEnemy[][] = {
 	"cof/purnell/kill4.mp3",
 };
 
-static int NPCId;
-
 public void CuredPurnell_OnMapStart_NPC()
 {
 	for (int i = 0; i < (sizeof(g_MeleeHitSounds));	i++) { PrecacheSoundCustom(g_MeleeHitSounds[i]);	}
 	for (int i = 0; i < (sizeof(g_MeleeAttackSounds));	i++) { PrecacheSoundCustom(g_MeleeAttackSounds[i]);	}
-	for (int i = 0; i < (sizeof(g_MeleeMissSounds));   i++) { PrecacheSoundCustom(g_MeleeMissSounds[i]);   }
+	for (int i = 0; i < (sizeof(g_MeleeMissSounds));   i++) { PrecacheSound(g_MeleeMissSounds[i]);   }
 	for (int i = 0; i < (sizeof(g_TeleportSounds));   i++) { PrecacheSound(g_TeleportSounds[i]);   }
 	for (int i = 0; i < (sizeof(g_RangedAttackSounds));   i++) { PrecacheSoundCustom(g_RangedAttackSounds[i]);   }
 	for (int i = 0; i < (sizeof(g_PullSounds));   i++) { PrecacheSoundCustom(g_PullSounds[i]);   }
@@ -63,12 +61,6 @@ public void CuredPurnell_OnMapStart_NPC()
 	data.Flags = 0;
 	data.Category = Type_Ally;
 	data.Func = ClotSummon;
-	NPCId = NPC_Add(data);
-}
-
-int CuredPurnell_ID()
-{
-	return NPCId;
 }
 
 static any ClotSummon(int client, float vecPos[3], float vecAng[3], int ally)
@@ -142,7 +134,7 @@ methodmap CuredPurnell < CClotBody
 	}
 
 	public void PlayMeleeMissSound() {
-		EmitCustomToAll(g_MeleeMissSounds[GetRandomInt(0, sizeof(g_MeleeMissSounds) - 1)], this.index, SNDCHAN_STATIC, 90, _, 1.0);
+		EmitSoundToAll(g_MeleeMissSounds[GetRandomInt(0, sizeof(g_MeleeMissSounds) - 1)], this.index, SNDCHAN_STATIC, 90, _, 1.0);
 		
 		#if defined DEBUG_SOUND
 		PrintToServer("CGoreFast::PlayMeleeMissSound()");
